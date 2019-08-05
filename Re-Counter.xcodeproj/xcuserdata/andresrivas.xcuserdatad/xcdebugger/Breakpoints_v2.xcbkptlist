@@ -1334,11 +1334,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Re-Counter/CounterListScene/Interactor/CounterListInteractor.swift"
-            timestampString = "586666781.221753"
+            timestampString = "586680254.9703259"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
             landmarkName = "sortCounters(sortOption:)"
             landmarkType = "7">
          </BreakpointContent>

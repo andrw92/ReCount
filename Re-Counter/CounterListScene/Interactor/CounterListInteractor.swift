@@ -44,49 +44,24 @@ class CounterListInteractor: CounterListBusinessLogic, CounterListActions{
     //MARK: - CounterCRUDLogic
     //No time for pretty callbacks
     func loadCounters() {
-        isLoading = true
-        loader.get { [weak self] (result) in
-            self?.interpretResult(result, executeOnSucess: { (items) -> [Counter] in
-                return self?.updateCounterListHandler(updatedList: items) ?? []
-            })
-        }
+        loader.get(completion: completeOperationTask(updateListTask()))
     }
     
     func createCounter(title: String) {
         guard title != "" else { return }
-        isLoading = true
-        loader.create(title: title) { [weak self] (result) in
-            self?.interpretResult(result, executeOnSucess: { (items) -> [Counter] in
-                return self?.createCounterHandler(updatedList: items) ?? []
-            })
-        }
+        loader.create(title: title, completion: completeOperationTask(createCounterTask()))
     }
     
     func incrementCounter(id: String) {
-        isLoading = true
-        loader.increment(counterId: id) { [weak self] (result) in
-            self?.interpretResult(result, executeOnSucess: { (items) -> [Counter] in
-                return self?.updateCounterHandler(id: id, updatedList: items) ?? []
-            })
-        }
+        loader.increment(counterId: id, completion: completeOperationTask(updateCountTask(with: id)))
     }
     
     func deleteCounter(id: String) {
-        isLoading = true
-        loader.delete(counterId: id) { [weak self] (result) in
-            self?.interpretResult(result, executeOnSucess: { (items) -> [Counter] in
-                return self?.deleteCounterHandler(id: id, updatedList: items) ?? []
-            })
-        }
+        loader.delete(counterId: id, completion: completeOperationTask(deleteTask(with: id)))
     }
     
     func decrementCounter(id: String) {
-        isLoading = true
-        loader.decrement(counterId: id) { [weak self] (result) in
-            self?.interpretResult(result, executeOnSucess: { (items) -> [Counter] in
-                return self?.updateCounterHandler(id: id, updatedList: items) ?? []
-            })
-        }
+        loader.decrement(counterId: id, completion: completeOperationTask(updateCountTask(with: id)))
     }
     
    
@@ -110,7 +85,6 @@ class CounterListInteractor: CounterListBusinessLogic, CounterListActions{
         counterList = newList
     }
     
-    
     //MARK: - Private methods
     private func sorted(by sortType: SortOptionsForCounterList)->[Counter]{
         switch sortType {
@@ -125,11 +99,6 @@ class CounterListInteractor: CounterListBusinessLogic, CounterListActions{
         }
     }
     
-    private func updateCounterListHandler(updatedList: [Counter])->[Counter]{
-        counterList = updatedList
-        return updatedList
-    }
-    
     private func getFilteredList()->[Counter]{
         guard let filterQuery = self.filterQuery, filterQuery != "" else {
             return counterList
@@ -140,16 +109,49 @@ class CounterListInteractor: CounterListBusinessLogic, CounterListActions{
         
         return filteredList
     }
-   
-    //MARK: - Result handlers
-    private func deleteCounterHandler(id: String, updatedList: [Counter])->[Counter]{
-        if !updatedList.contains(where: {$0.id == id}), let oldIndex = self.counterList.firstIndex(where: {$0.id == id}){
-            counterList.remove(at: oldIndex)
+    
+    //MARK: - Tasks
+    private func completeOperationTask(_ executeOnSuccess: @escaping ([Counter]) -> [Counter])->(RemoteCounterListLoader.Result)-> Void{
+        isLoading = true
+        let task: (RemoteCounterListLoader.Result) -> Void = { [weak self] result in
+            self?.isLoading = false
+            self?.interpretResult(result, executeOnSucess: executeOnSuccess)
         }
-        return counterList
+        return task
     }
     
-    private func createCounterHandler(updatedList: [Counter])->[Counter]{
+    private func updateListTask()-> (([Counter]) -> [Counter]){
+        let task: ([Counter]) -> [Counter] = { items in
+            return self.updateListHandler(items)
+        }
+        return task
+    }
+    private func createCounterTask()-> (([Counter]) -> [Counter]){
+        let task: ([Counter]) -> [Counter] = { items in
+            return self.createCounterHandler(items)
+        }
+        return task
+    }
+    private func deleteTask(with id: String)-> ([Counter]) -> [Counter]{
+        let task: ([Counter]) -> [Counter] = { items in
+            self.deleteCounterHandler(id: id, updatedList: items)
+        }
+        return task
+    }
+    
+    private func updateCountTask(with id: String)-> ([Counter]) -> [Counter]{
+        let task: ([Counter]) -> [Counter] = { items in
+            self.updateCounterHandler(id: id, updatedList: items)
+        }
+        return task
+    }
+   
+    //MARK: - Result handlers
+    private func updateListHandler(_ updatedList: [Counter])->[Counter]{
+        counterList = updatedList
+        return updatedList
+    }
+    private func createCounterHandler(_ updatedList: [Counter])->[Counter]{
         for counterItem in updatedList{
             if !(counterList.contains(counterItem)) {
                 counterList.append(counterItem)
@@ -158,23 +160,27 @@ class CounterListInteractor: CounterListBusinessLogic, CounterListActions{
         return counterList
     }
     
+    private func deleteCounterHandler(id: String, updatedList: [Counter])->[Counter]{
+        if !updatedList.contains(where: {$0.id == id}), let oldIndex = counterList.firstIndex(where: {$0.id == id}){
+            counterList.remove(at: oldIndex)
+        }
+        return counterList
+    }
+    
     private func updateCounterHandler(id: String, updatedList: [Counter]) -> [Counter]{
-        if let counter = updatedList.first(where: {$0.id == id}), let oldIndex = self.counterList.firstIndex(where: {$0.id == id}){
+        if let counter = updatedList.first(where: {$0.id == id}), let oldIndex = counterList.firstIndex(where: {$0.id == id}){
             counterList[oldIndex] = counter
         }
         return counterList
     }
     
-    private func interpretResult(_ result: RemoteCounterListLoader.Result,
-                                 executeOnSucess: (([Counter]) -> [Counter])) {
-        
+    private func interpretResult(_ result: RemoteCounterListLoader.Result, executeOnSucess: (([Counter]) -> [Counter])) {
         switch result {
         case .success(let items):
             self.presenter?.presentCounters(counterList: executeOnSucess(items))
         case .failure(let error):
             self.presenter?.presentError(error)
         }
-        isLoading = false
     }
     
 }

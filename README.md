@@ -18,7 +18,7 @@ Nota: en mi emulador local de iPhone X el UICounterControl se queda como pegado 
 
 Re-Counter utiliza el patron de diseño Clean Swift un approach del patron VIPER, haciendo utilizando un flujo de dato unidireccional, este flujo se puede observar mejor en el siguiente diagrama:
 
-[](https://hackernoon.com/hn-images/1*QV4nxWPd_sbGhoWO-X7PfQ.png)
+![](https://hackernoon.com/hn-images/1*QV4nxWPd_sbGhoWO-X7PfQ.png)
 
 
 ### Porque Clean Swift
