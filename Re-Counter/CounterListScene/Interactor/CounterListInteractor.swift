@@ -44,24 +44,24 @@ class CounterListInteractor: CounterListBusinessLogic, CounterListActions{
     //MARK: - CounterCRUDLogic
     //No time for pretty callbacks
     func loadCounters() {
-        loader.get(completion: completeOperationTask(updateListTask()))
+        loader.get(completion: executeTask(updateListTask()))
     }
     
     func createCounter(title: String) {
         guard title != "" else { return }
-        loader.create(title: title, completion: completeOperationTask(createCounterTask()))
+        loader.create(title: title, completion: executeTask(createCounterTask()))
     }
     
     func incrementCounter(id: String) {
-        loader.increment(counterId: id, completion: completeOperationTask(updateCountTask(with: id)))
+        loader.increment(counterId: id, completion: executeTask(updateCountTask(with: id)))
     }
     
     func deleteCounter(id: String) {
-        loader.delete(counterId: id, completion: completeOperationTask(deleteTask(with: id)))
+        loader.delete(counterId: id, completion: executeTask(deleteTask(with: id)))
     }
     
     func decrementCounter(id: String) {
-        loader.decrement(counterId: id, completion: completeOperationTask(updateCountTask(with: id)))
+        loader.decrement(counterId: id, completion: executeTask(updateCountTask(with: id)))
     }
     
    
@@ -111,7 +111,7 @@ class CounterListInteractor: CounterListBusinessLogic, CounterListActions{
     }
     
     //MARK: - Tasks
-    private func completeOperationTask(_ executeOnSuccess: @escaping ([Counter]) -> [Counter])->(RemoteCounterListLoader.Result)-> Void{
+    private func executeTask(_ executeOnSuccess: @escaping ([Counter]) -> [Counter])->(RemoteCounterListLoader.Result)-> Void{
         isLoading = true
         let task: (RemoteCounterListLoader.Result) -> Void = { [weak self] result in
             self?.isLoading = false

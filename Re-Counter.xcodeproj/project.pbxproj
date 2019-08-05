@@ -16,7 +16,6 @@
 		1848969D22F0B9C100821AFF /* RemoteCounterMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1848969C22F0B9C100821AFF /* RemoteCounterMapper.swift */; };
 		184896A222F0D05400821AFF /* CounterLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184896A122F0D05400821AFF /* CounterLoaderTests.swift */; };
 		184896A422F0F23600821AFF /* URLSessionHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184896A322F0F23600821AFF /* URLSessionHTTPClientTests.swift */; };
-		184896A622F1245F00821AFF /* CounterLoaderTestsEndtoEnd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184896A522F1245F00821AFF /* CounterLoaderTestsEndtoEnd.swift */; };
 		184896A822F2284E00821AFF /* CounterListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184896A722F2284E00821AFF /* CounterListInteractor.swift */; };
 		184896AA22F22AEF00821AFF /* CounterListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184896A922F22AEF00821AFF /* CounterListPresenter.swift */; };
 		184896AD22F2428800821AFF /* CounterListInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184896AC22F2428800821AFF /* CounterListInteractorTests.swift */; };
@@ -83,7 +82,6 @@
 		1848969C22F0B9C100821AFF /* RemoteCounterMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteCounterMapper.swift; sourceTree = "<group>"; };
 		184896A122F0D05400821AFF /* CounterLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterLoaderTests.swift; sourceTree = "<group>"; };
 		184896A322F0F23600821AFF /* URLSessionHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClientTests.swift; sourceTree = "<group>"; };
-		184896A522F1245F00821AFF /* CounterLoaderTestsEndtoEnd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterLoaderTestsEndtoEnd.swift; sourceTree = "<group>"; };
 		184896A722F2284E00821AFF /* CounterListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterListInteractor.swift; sourceTree = "<group>"; };
 		184896A922F22AEF00821AFF /* CounterListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterListPresenter.swift; sourceTree = "<group>"; };
 		184896AC22F2428800821AFF /* CounterListInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterListInteractorTests.swift; sourceTree = "<group>"; };
@@ -171,7 +169,6 @@
 			isa = PBXGroup;
 			children = (
 				184896A122F0D05400821AFF /* CounterLoaderTests.swift */,
-				184896A522F1245F00821AFF /* CounterLoaderTestsEndtoEnd.swift */,
 			);
 			path = LoaderTests;
 			sourceTree = "<group>";
@@ -577,7 +574,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				184896A622F1245F00821AFF /* CounterLoaderTestsEndtoEnd.swift in Sources */,
 				184896AD22F2428800821AFF /* CounterListInteractorTests.swift in Sources */,
 				18C3943722F0AE110049711D /* HTTPClientSpy.swift in Sources */,
 				184896B422F3683000821AFF /* CounterListPresenterTests.swift in Sources */,

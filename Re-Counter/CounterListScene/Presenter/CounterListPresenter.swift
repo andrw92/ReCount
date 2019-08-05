@@ -35,7 +35,7 @@ class CounterListPresenter: CounterListPresentationLogic {
     
     func presentError(_ error: Error) {
         let title = "Counter Error"
-        let message = "We have find some error. \(error.localizedDescription)"
+        let message = "We have found some error. \(error.localizedDescription)"
         let viewModel = ErrorViewModel(title: title, message: message)
        
         self.view?.displayError(error: viewModel)
